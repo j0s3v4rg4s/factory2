@@ -4,6 +4,9 @@ import getPageContext from 'config/theme'
 import JssProvider from 'react-jss/lib/JssProvider'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { install } from '@material-ui/styles';
+
+install();
 
 export default class MyApp extends App {
     private pageContext
