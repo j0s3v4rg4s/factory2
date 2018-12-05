@@ -1,54 +1,54 @@
 import * as React from 'react'
 
 export default (props: { size: number; width: number }) => {
-  const size = props.size
-  const size2 = size * 0.7
-  const margin = (size - size2) / 2
-  return (
-    <div className="lds-ring" style={{ width: size, height: size }}>
-      <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
-      <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
-      <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
-      <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
+    const size = props.size
+    const size2 = size * 0.7
+    const margin = (size - size2) / 2
+    return (
+        <div className="lds-ring" style={{ width: size, height: size }}>
+            <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
+            <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
+            <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
+            <div style={{ width: size2, height: size2, borderWidth: props.width, margin: margin }} />
 
-      {/*language=SCSS*/}
-      <style jsx>{`
-        .lds-ring {
-          display: inline-block;
-          position: relative;
-          width: 64px;
-          height: 64px;
-        }
-        .lds-ring div {
-          box-sizing: border-box;
-          display: block;
-          position: absolute;
-          width: 51px;
-          height: 51px;
+            {/*language=SCSS*/}
+            <style jsx>{`
+                .lds-ring {
+                    display: inline-block;
+                    position: relative;
+                    width: 64px;
+                    height: 64px;
+                }
+                .lds-ring div {
+                    box-sizing: border-box;
+                    display: block;
+                    position: absolute;
+                    width: 51px;
+                    height: 51px;
 
-          border: 6px solid #fff;
-          border-radius: 50%;
-          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-          border-color: #fff transparent transparent transparent;
-        }
-        .lds-ring div:nth-child(1) {
-          animation-delay: -0.45s;
-        }
-        .lds-ring div:nth-child(2) {
-          animation-delay: -0.3s;
-        }
-        .lds-ring div:nth-child(3) {
-          animation-delay: -0.15s;
-        }
-        @keyframes lds-ring {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </div>
-  )
+                    border: 6px solid #fff;
+                    border-radius: 50%;
+                    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+                    border-color: #fff transparent transparent transparent;
+                }
+                .lds-ring div:nth-child(1) {
+                    animation-delay: -0.45s;
+                }
+                .lds-ring div:nth-child(2) {
+                    animation-delay: -0.3s;
+                }
+                .lds-ring div:nth-child(3) {
+                    animation-delay: -0.15s;
+                }
+                @keyframes lds-ring {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            `}</style>
+        </div>
+    )
 }

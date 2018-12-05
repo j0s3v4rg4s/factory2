@@ -4,12 +4,15 @@ import getPageContext from 'config/theme'
 import JssProvider from 'react-jss/lib/JssProvider'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { install } from '@material-ui/styles';
+import { install } from '@material-ui/styles'
+import withFirebase  from 'config/firebase/withFirebase'
+import Firebase from 'config/firebase/fire'
 
-install();
 
-export default class MyApp extends App {
-    private pageContext
+install()
+
+class MyApp extends App<{fireInstance: Firebase}> {
+    private readonly pageContext
 
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {}
@@ -34,7 +37,7 @@ export default class MyApp extends App {
     }
 
     render() {
-        const { Component, pageProps } = this.props
+        const { Component, pageProps, fireInstance } = this.props
         const { sheetsRegistry, generateClassName, theme, sheetsManager } = this.pageContext
 
         return (
@@ -42,10 +45,12 @@ export default class MyApp extends App {
                 <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
                     <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
                         <CssBaseline />
-                        <Component pageContext={this.pageContext} {...pageProps} />
+                        <Component pageContext={this.pageContext} {...pageProps} fireInstance={fireInstance} />
                     </MuiThemeProvider>
                 </JssProvider>
             </Container>
         )
     }
 }
+
+export default withFirebase(MyApp)

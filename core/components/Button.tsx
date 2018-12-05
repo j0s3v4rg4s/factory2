@@ -1,5 +1,6 @@
 import Button, { ButtonProps } from '@material-ui/core/Button'
 import Spinner from './Spinner'
+import * as React from 'react'
 
 type IProps = {
     loader: boolean
