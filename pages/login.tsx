@@ -1,61 +1,38 @@
 import * as React from 'react'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-import color from '@material-ui/core/colors/teal';
+import Typography from 'core/components/Typography'
+import ValidatorField, { Required, Email, MinLength } from 'core/components/ValidatorField'
+import Button from 'core/components/Button'
 
-
-class Login extends React.Component<{ classes: any }> {
+export default class extends React.Component<{ classes: any }> {
     render(): React.ReactNode {
-        const { classes } = this.props
         return (
             <React.Fragment>
                 <div className="content">
                     <div className="item1">
-                        <Typography variant="h3" color="primary">Inicia sesión</Typography>
-                        <TextField
+                        <Typography variant="h1">Inicia sesión</Typography>
+                        <ValidatorField
                             variant="outlined"
                             label="Correo"
-                            placeholder="correo@empresa.com"
+                            placeholder="usuario@empresa.com"
                             fullWidth={true}
                             className="space"
                             type="email"
-                            classes={{
-                                root: classes.root
-                            }}
-                            InputLabelProps={{
-                                classes: {
-                                    root: classes.label
-                                }
-                            }}
-                            InputProps={{
-                                classes: {
-                                    input: classes.input,
-                                    notchedOutline: classes.input
-                                },
-                            }}
+                            helperText="Ingresa tu usuario seguido de @<nombre de tu empresa>.com"
+                            validators={[Required('Este campo es requerido'), Email('Correo invalido')]}
                         />
-                        <TextField
+                        <ValidatorField
                             variant="outlined"
                             label="Contraseña"
+                            placeholder="123456"
                             fullWidth={true}
+                            className="space"
                             type="password"
-                            classes={{
-                                root: classes.root
-                            }}
-                            InputLabelProps={{
-                                classes: {
-                                    root: classes.label
-                                }
-                            }}
-                            InputProps={{
-                                classes: {
-                                    input: classes.input
-                                }
-                            }}
+                            helperText="Ingresa tu contraseña"
+                            validators={[Required('Este campo es requerido'), MinLength(6, 'Tamaño mínimo 6 caracteres')]}
                         />
-                        <Button color="secondary" variant="contained" fullWidth={true}>Entrar</Button>
+                        <Button color="primary" variant="contained" fullWidth={true}>
+                            Entrar
+                        </Button>
                     </div>
                     <div className="item2" />
                 </div>
@@ -68,8 +45,8 @@ class Login extends React.Component<{ classes: any }> {
                     }
                     .item1 {
                         width: 600px;
-                        background-color: #e0e0e0;
-                        padding: 70px 40px;
+                        background-color: #f3f3f3;
+                        padding: 200px 40px 0;
                     }
                     .item2 {
                         background-image: url('/static/img/login.jpg');
@@ -82,15 +59,3 @@ class Login extends React.Component<{ classes: any }> {
         )
     }
 }
-
-export default withStyles({
-    root: {
-        margin: '10px 0'
-    },
-    input: {
-        padding: '15px 14px',
-    },
-    label: {
-        transform: 'translate(14px, 16px) scale(1)',
-    },
-})(Login)

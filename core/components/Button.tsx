@@ -3,7 +3,7 @@ import Spinner from './Spinner'
 import * as React from 'react'
 
 type IProps = {
-    loader: boolean
+    loader?: boolean
 } & ButtonProps
 
 export default (props: IProps) => {
@@ -11,7 +11,7 @@ export default (props: IProps) => {
     const buttonProps = Object.assign({}, props)
     delete buttonProps['loader']
     return (
-        <Button {...buttonProps} style={{ minWidth: 200, ...props.style }}>
+        <Button {...buttonProps} style={{ minWidth: 200, padding: '13px 16px', ...props.style }}>
             {loader ? <Spinner size={21} width={2} /> : props.children}
         </Button>
     )
