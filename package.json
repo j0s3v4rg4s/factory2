@@ -3,7 +3,11 @@
     "dev": "nodemon server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
     "prestart": "next build && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node .next/production-server/index.js"
+    "start": "NODE_ENV=production node .next/production-server/index.js",
+    "bundle:server": "BUNDLE_ANALYZE=server yarn build",
+    "bundle:browser": "BUNDLE_ANALYZE=browser yarn build",
+    "bundle": "BUNDLE_ANALYZE=both yarn build"
+
   },
   "dependencies": {
     "@babel/core": "^7.1.2",
@@ -11,6 +15,7 @@
     "@material-ui/icons": "^3.0.1",
     "@material-ui/styles": "^3.0.0-alpha.0",
     "@types/styled-jsx": "^2.2.7",
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-typescript": "1.1.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-module-resolver": "^3.1.1",
