@@ -4,6 +4,22 @@ import ValidatorField, { Required, Email, MinLength } from 'core/components/Vali
 import Button from 'core/components/Button'
 
 export default class extends React.Component<{ classes: any }> {
+
+    state = {
+        email: '',
+        emailValid: false,
+        pass: '',
+        passValid: false,
+    }
+
+    changeValue = (value: string, valid: boolean, name: string) => {
+        this.setState({
+            [name]: value,
+            [`${name}Valid`]: valid,
+            valid
+        })
+    }
+
     render(): React.ReactNode {
         return (
             <React.Fragment>
@@ -19,6 +35,7 @@ export default class extends React.Component<{ classes: any }> {
                             type="email"
                             helperText="Ingresa tu usuario seguido de @<nombre de tu empresa>.com"
                             validators={[Required('Este campo es requerido'), Email('Correo invalido')]}
+                            changeData={(data)=> this.changeValue(data.value, data.valid, 'email')}
                         />
                         <ValidatorField
                             variant="outlined"
@@ -29,8 +46,9 @@ export default class extends React.Component<{ classes: any }> {
                             type="password"
                             helperText="Ingresa tu contraseña"
                             validators={[Required('Este campo es requerido'), MinLength(6, 'Tamaño mínimo 6 caracteres')]}
+                            changeData={(data)=> this.changeValue(data.value, data.valid, 'pass')}
                         />
-                        <Button color="primary" variant="contained" fullWidth={true}>
+                        <Button color="primary" variant="contained" fullWidth={true} style={{marginTop: 20}} disabled={!(this.state.emailValid && this.state.passValid)}>
                             Entrar
                         </Button>
                     </div>

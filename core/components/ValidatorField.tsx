@@ -2,8 +2,17 @@ import TextField from 'core/components/TextField'
 import { TextFieldProps } from '@material-ui/core/TextField'
 import React, { ChangeEvent } from 'react'
 
-type iProps = { validators?: ((value: string | number) => string)[] } & TextFieldProps
+type iProps = {
+    validators?: ((value: string | number) => string)[]
+    changeData?: (data: Data) => void
+} & TextFieldProps
+
 type Writeable<T> = { -readonly [P in keyof T]-?: T[P] }
+
+interface Data {
+    value: string
+    valid: boolean
+}
 
 export default class extends React.Component<iProps> {
     state = {
@@ -27,16 +36,25 @@ export default class extends React.Component<iProps> {
                 }
             })
         }
-        if (errors.length > 0) {
-            this.setState({ text: errors[0], valid: false })
+        const isValid = errors.length === 0
+        this.updateChange(e.target.value, isValid)
+        if (isValid) {
+            this.setState({ text: this.props.helperText, valid: isValid })
         } else {
-            this.setState({ text: this.props.helperText, valid: true })
+            this.setState({ text: errors[0], valid: isValid })
+        }
+    }
+
+    updateChange = (value: string, valid: boolean) => {
+        if (this.props.changeData) {
+            this.props.changeData({value, valid})
         }
     }
 
     render() {
         const props = Object.assign({}, this.props) as Writeable<iProps>
         delete props['validators']
+        delete props['changeData']
         return (
             <TextField
                 {...props}
