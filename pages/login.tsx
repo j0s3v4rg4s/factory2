@@ -2,23 +2,24 @@ import * as React from 'react'
 import Typography from 'core/components/Typography'
 import ValidatorField, { Required, Email, MinLength } from 'core/components/ValidatorField'
 import Button from 'core/components/Button'
+import Firebase from '../config/firebase/fire'
 
-export default class extends React.Component<{ classes: any }> {
 
-    state = {
-        email: '',
-        emailValid: false,
-        pass: '',
-        passValid: false,
+export default class extends React.Component {
+    private readonly emailRef: React.RefObject<ValidatorField> = React.createRef()
+    private readonly passRef: React.RefObject<ValidatorField> = React.createRef()
+
+    validateForm = (event: any)=> {
+        event.preventDefault()
+        const email = this.emailRef.current.validate()
+        const pass = this.passRef.current.validate()
+        if (email.isValid && pass.isValid) {
+            Firebase.getInstance().auth.signInWithEmailAndPassword(email.value, pass.value)
+        }
+
     }
 
-    changeValue = (value: string, valid: boolean, name: string) => {
-        this.setState({
-            [name]: value,
-            [`${name}Valid`]: valid,
-            valid
-        })
-    }
+
 
     render(): React.ReactNode {
         return (
@@ -27,6 +28,7 @@ export default class extends React.Component<{ classes: any }> {
                     <div className="item1">
                         <Typography variant="h1">Inicia sesión</Typography>
                         <ValidatorField
+                            ref={this.emailRef}
                             variant="outlined"
                             label="Correo"
                             placeholder="usuario@empresa.com"
@@ -35,9 +37,9 @@ export default class extends React.Component<{ classes: any }> {
                             type="email"
                             helperText="Ingresa tu usuario seguido de @<nombre de tu empresa>.com"
                             validators={[Required('Este campo es requerido'), Email('Correo invalido')]}
-                            changeData={(data)=> this.changeValue(data.value, data.valid, 'email')}
                         />
                         <ValidatorField
+                            ref={this.passRef}
                             variant="outlined"
                             label="Contraseña"
                             placeholder="123456"
@@ -45,10 +47,12 @@ export default class extends React.Component<{ classes: any }> {
                             className="space"
                             type="password"
                             helperText="Ingresa tu contraseña"
-                            validators={[Required('Este campo es requerido'), MinLength(6, 'Tamaño mínimo 6 caracteres')]}
-                            changeData={(data)=> this.changeValue(data.value, data.valid, 'pass')}
+                            validators={[
+                                Required('Este campo es requerido'),
+                                MinLength(6, 'Tamaño mínimo 6 caracteres')
+                            ]}
                         />
-                        <Button color="primary" variant="contained" fullWidth={true} style={{marginTop: 20}} disabled={!(this.state.emailValid && this.state.passValid)}>
+                        <Button color="primary" variant="contained" fullWidth={true} style={{ marginTop: 20 }} onClick={this.validateForm}>
                             Entrar
                         </Button>
                     </div>
