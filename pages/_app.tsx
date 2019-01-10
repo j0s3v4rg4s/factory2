@@ -5,13 +5,16 @@ import JssProvider from 'react-jss/lib/JssProvider'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { install } from '@material-ui/styles'
-import withFirebase  from 'config/firebase/withFirebase'
+import { Provider } from 'react-redux'
 import Firebase from 'config/firebase/fire'
-
+import withFirebase from '../config/firebase/withFirebase'
+import initStore from 'redux_store/store'
+import withRedux from 'next-redux-wrapper'
+import withReduxSaga from 'next-redux-saga'
 
 install()
 
-class MyApp extends App<{fireInstance: Firebase}> {
+class MyApp extends App<{ fireInstance: Firebase; store: any }> {
     private readonly pageContext
 
     static async getInitialProps({ Component, ctx }) {
@@ -37,7 +40,7 @@ class MyApp extends App<{fireInstance: Firebase}> {
     }
 
     render() {
-        const { Component, pageProps, fireInstance } = this.props
+        const { Component, pageProps, fireInstance, store } = this.props
         const { sheetsRegistry, generateClassName, theme, sheetsManager } = this.pageContext
 
         return (
@@ -45,7 +48,9 @@ class MyApp extends App<{fireInstance: Firebase}> {
                 <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
                     <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
                         <CssBaseline />
-                        <Component pageContext={this.pageContext} {...pageProps} fireInstance={fireInstance} />
+                        <Provider store={store}>
+                            <Component pageContext={this.pageContext} {...pageProps} fireInstance={fireInstance} />
+                        </Provider>
                     </MuiThemeProvider>
                 </JssProvider>
             </Container>
@@ -53,4 +58,4 @@ class MyApp extends App<{fireInstance: Firebase}> {
     }
 }
 
-export default withFirebase(MyApp)
+export default withFirebase(withRedux(initStore)(withReduxSaga({ async: true })(MyApp)))

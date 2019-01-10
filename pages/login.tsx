@@ -2,24 +2,29 @@ import * as React from 'react'
 import Typography from 'core/components/Typography'
 import ValidatorField, { Required, Email, MinLength } from 'core/components/ValidatorField'
 import Button from 'core/components/Button'
-import Firebase from '../config/firebase/fire'
+import { isLogin, login } from 'redux_store/user/user.actions'
+import { connect } from 'react-redux'
+import { State } from 'redux_store/share'
+import { UserState } from 'redux_store/user/share'
 
+interface Props {
+    isLogin: typeof isLogin
+    login: typeof login
+    userReducer: UserState
+}
 
-export default class extends React.Component {
+class Login extends React.Component<Props> {
     private readonly emailRef: React.RefObject<ValidatorField> = React.createRef()
     private readonly passRef: React.RefObject<ValidatorField> = React.createRef()
 
-    validateForm = (event: any)=> {
+    validateForm = (event: any) => {
         event.preventDefault()
         const email = this.emailRef.current.validate()
         const pass = this.passRef.current.validate()
         if (email.isValid && pass.isValid) {
-            Firebase.getInstance().auth.signInWithEmailAndPassword(email.value, pass.value)
+            this.props.login(email.value, pass.value)
         }
-
     }
-
-
 
     render(): React.ReactNode {
         return (
@@ -52,7 +57,13 @@ export default class extends React.Component {
                                 MinLength(6, 'Tamaño mínimo 6 caracteres')
                             ]}
                         />
-                        <Button color="primary" variant="contained" fullWidth={true} style={{ marginTop: 20 }} onClick={this.validateForm}>
+                        <Button
+                            loader={this.props.userReducer.isLoading}
+                            color="primary"
+                            variant="contained"
+                            fullWidth={true}
+                            style={{ marginTop: 20 }}
+                            onClick={this.validateForm}>
                             Entrar
                         </Button>
                     </div>
@@ -81,3 +92,13 @@ export default class extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = { isLogin, login }
+const mapStateToProps = ({ userReducer }: State) => {
+    return { userReducer }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)

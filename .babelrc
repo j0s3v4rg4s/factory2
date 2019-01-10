@@ -3,6 +3,7 @@
     ["module-resolver", {
       "root": ["./"],
       "alias": {
+        "redux_store": "./redux_store",
         "config": "./config",
         "pages": "./pages",
         "core": "./core"

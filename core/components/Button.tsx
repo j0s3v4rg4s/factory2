@@ -11,7 +11,7 @@ export default (props: IProps) => {
     const buttonProps = Object.assign({}, props)
     delete buttonProps['loader']
     return (
-        <Button {...buttonProps} style={{ minWidth: 200, padding: '13px 16px', ...props.style }}>
+        <Button {...buttonProps} disabled={loader} style={{ minWidth: 200, padding: '13px 16px', ...props.style }}>
             {loader ? <Spinner size={21} width={2} /> : props.children}
         </Button>
     )
