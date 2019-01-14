@@ -5,12 +5,13 @@ import Button from 'core/components/Button'
 import { isLogin, login } from 'redux_store/user/user.actions'
 import { connect } from 'react-redux'
 import { State } from 'redux_store/share'
-import { UserState } from 'redux_store/user/share'
+import { UserState } from 'redux_store/user/user.share'
 
 interface Props {
     isLogin: typeof isLogin
     login: typeof login
     userReducer: UserState
+    fireInstance: any
 }
 
 class Login extends React.Component<Props> {
@@ -22,7 +23,7 @@ class Login extends React.Component<Props> {
         const email = this.emailRef.current.validate()
         const pass = this.passRef.current.validate()
         if (email.isValid && pass.isValid) {
-            this.props.login(email.value, pass.value)
+            this.props.login(email.value, pass.value, '/')
         }
     }
 
@@ -32,44 +33,47 @@ class Login extends React.Component<Props> {
                 <div className="content">
                     <div className="item1">
                         <Typography variant="h1">Inicia sesión</Typography>
-                        <ValidatorField
-                            ref={this.emailRef}
-                            variant="outlined"
-                            label="Correo"
-                            placeholder="usuario@empresa.com"
-                            fullWidth={true}
-                            className="space"
-                            type="email"
-                            helperText="Ingresa tu usuario seguido de @<nombre de tu empresa>.com"
-                            validators={[Required('Este campo es requerido'), Email('Correo invalido')]}
-                        />
-                        <ValidatorField
-                            ref={this.passRef}
-                            variant="outlined"
-                            label="Contraseña"
-                            placeholder="123456"
-                            fullWidth={true}
-                            className="space"
-                            type="password"
-                            helperText="Ingresa tu contraseña"
-                            validators={[
-                                Required('Este campo es requerido'),
-                                MinLength(6, 'Tamaño mínimo 6 caracteres')
-                            ]}
-                        />
-                        <Button
-                            loader={this.props.userReducer.isLoading}
-                            color="primary"
-                            variant="contained"
-                            fullWidth={true}
-                            style={{ marginTop: 20 }}
-                            onClick={this.validateForm}>
-                            Entrar
-                        </Button>
+                        <form onSubmit={this.validateForm}>
+                            <ValidatorField
+                                ref={this.emailRef}
+                                variant="outlined"
+                                label="Correo"
+                                placeholder="usuario@empresa.com"
+                                fullWidth={true}
+                                className="space"
+                                type="email"
+                                helperText="Ingresa tu usuario seguido de @<nombre de tu empresa>.com"
+                                validators={[Required('Este campo es requerido'), Email('Correo invalido')]}
+                            />
+                            <ValidatorField
+                                ref={this.passRef}
+                                variant="outlined"
+                                label="Contraseña"
+                                placeholder="123456"
+                                fullWidth={true}
+                                className="space"
+                                type="password"
+                                helperText="Ingresa tu contraseña"
+                                validators={[
+                                    Required('Este campo es requerido'),
+                                    MinLength(6, 'Tamaño mínimo 6 caracteres')
+                                ]}
+                            />
+                            <Button
+                                loader={this.props.userReducer.isLoading}
+                                color="primary"
+                                variant="contained"
+                                fullWidth={true}
+                                type="submit"
+                                style={{ marginTop: 20 }}>
+                                Entrar
+                            </Button>
+                        </form>
                     </div>
                     <div className="item2" />
                 </div>
 
+                {/*language=SCSS*/}
                 <style jsx>{`
                     .content {
                         display: flex;

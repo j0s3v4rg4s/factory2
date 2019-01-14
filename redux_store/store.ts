@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import userReducer from './user/user.reducer'
-import { userDefaultState } from './user/share'
+import { userDefaultState } from './user/user.share'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
 import userSaga from 'redux_store/user/user.saga'

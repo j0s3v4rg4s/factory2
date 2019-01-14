@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from 'core/components/Button'
+import IsLogin from 'core/components/IsLogin'
 import Firebase from 'config/firebase/fire'
 
-export default class extends React.Component<{fireInstance: Firebase}> {
+class Index extends React.Component {
     state = {
         load: true
     }
@@ -13,11 +14,17 @@ export default class extends React.Component<{fireInstance: Firebase}> {
         }, 2000)
     }
 
+    logout = ()=> {
+        Firebase.getInstance().auth.signOut()
+    }
+
     render() {
         return (
-            <Button variant="contained" color="primary" loader={this.state.load}>
+            <Button variant="contained" color="primary" loader={this.state.load} onClick={this.logout}>
                 Entrar
             </Button>
         )
     }
 }
+
+export default IsLogin(Index)

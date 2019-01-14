@@ -7,7 +7,6 @@ export default class Firebase  {
     private static firebaseInstance: Firebase = null;
 
     readonly version = firebase.SDK_VERSION;
-    auth: firebase.auth.Auth
 
     static getInstance() {
         if (!this.firebaseInstance) {
@@ -32,6 +31,9 @@ export default class Firebase  {
                 firebase.initializeApp(config);
             }
         }
-        this.auth = firebase.auth()
+    }
+
+    get auth() {
+        return firebase.auth()
     }
 }

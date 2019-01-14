@@ -1,24 +1,40 @@
 import * as React from 'react'
+import { Store } from 'redux'
+
 import Firebase from './fire'
+import { completeValidate, loginComplete } from 'redux_store/user/user.actions'
 
 export default (App) => {
-    return class AppWithFirebase extends React.Component<{ fireInstance: Firebase }> {
-        static async getInitialProps(appContext) {
-            const fireInstance = Firebase.getInstance()
+    return class AppWithFirebase extends React.Component<{ store: Store }> {
+        // ***************************************************************************
+        // Attributes
+        // ***************************************************************************
+        private readonly fireInstance = Firebase.getInstance()
 
+        // ***************************************************************************
+        // Methods
+        // ***************************************************************************
+
+        static async getInitialProps(appContext) {
             let appProps = {}
             if (typeof App.getInitialProps === 'function') {
                 appProps = await App.getInitialProps(appContext)
             }
-            return { ...appProps, fireInstance }
-        }
-        constructor(props) {
-            super(props)
+            return { ...appProps }
         }
 
+        componentDidMount(): void {
+            this.fireInstance.auth.onAuthStateChanged(user=> {
+                if (user) {
+                    this.props.store.dispatch(loginComplete(user))
+                }
+                this.props.store.dispatch(completeValidate())
+            })
+        }
+
+
         render() {
-            const { fireInstance } = this.props
-            return <App {...this.props} fireInstance={fireInstance} />
+            return <App {...this.props} fireInstance={this.fireInstance} />
         }
     }
 }

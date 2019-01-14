@@ -1,19 +1,21 @@
 import { all, put, takeLatest } from 'redux-saga/effects'
 import { isLogin, loginComplete, loginError } from 'redux_store/user/user.actions'
-import { LOGIN } from 'redux_store/user/share'
+import { LOGIN } from 'redux_store/user/user.share'
 import { Action } from 'redux_store/share'
 import Firebase from 'config/firebase/fire'
 import firebase from 'firebase/app'
+import Router from 'next/router'
 
-function* login(action: Action<{ email: string; pass: string }>) {
-    const {email, pass} = action.payload
+function* login(action: Action) {
+    const { email, pass, redirect } = action.payload
     yield put(isLogin())
     try {
         const userCredential: firebase.auth.UserCredential = yield Firebase.getInstance().auth.signInWithEmailAndPassword(
             email,
             pass
         )
-        yield put(loginComplete(userCredential))
+        yield Router.push(redirect)
+        yield put(loginComplete(userCredential.user))
     } catch (e) {
         switch (e.code) {
             case 'auth/user-not-found':

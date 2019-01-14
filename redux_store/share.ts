@@ -1,8 +1,8 @@
-import { UserState } from 'redux_store/user/share'
+import { UserState } from 'redux_store/user/user.share'
 
-export interface Action<U=string> {
+export interface Action {
     type: string
-    payload?: U
+    payload?: any
 }
 
 export interface State {

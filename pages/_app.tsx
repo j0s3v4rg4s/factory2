@@ -58,4 +58,4 @@ class MyApp extends App<{ fireInstance: Firebase; store: any }> {
     }
 }
 
-export default withFirebase(withRedux(initStore)(withReduxSaga({ async: true })(MyApp)))
+export default withRedux(initStore)(withReduxSaga({ async: true })(withFirebase(MyApp)))
