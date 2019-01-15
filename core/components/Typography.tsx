@@ -1,5 +1,6 @@
 import Typography, { TypographyProps } from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles';
+import * as React from 'react'
 
 
 const Type = (props: TypographyProps) => <Typography {...props}>{props.children}</Typography>

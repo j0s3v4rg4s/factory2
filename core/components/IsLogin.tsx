@@ -4,8 +4,6 @@ import Firebase from 'config/firebase/fire'
 import firebase from 'firebase/app'
 import Load from 'core/components/Load'
 
-
-
 export default function(Wrapped) {
     return class IsLogin extends React.Component {
         state = {
@@ -15,9 +13,10 @@ export default function(Wrapped) {
 
         componentWillMount(): void {
             this.uns = Firebase.getInstance().auth.onAuthStateChanged((usr) => {
-                this.setState({complete: true})
                 if (!usr && typeof window != 'undefined') {
-                    Router.push('/login')
+                    Router.push('/login').then(() => this.setState({ complete: true }))
+                } else {
+                    this.setState({ complete: true })
                 }
             })
         }
@@ -27,9 +26,8 @@ export default function(Wrapped) {
         }
 
         render(): React.ReactNode {
-            const {complete} = this.state
-            return complete ? <Wrapped {...this.props}/> : <Load />
+            const { complete } = this.state
+            return complete ? <Wrapped {...this.props} /> : <Load />
         }
     }
 }
-
