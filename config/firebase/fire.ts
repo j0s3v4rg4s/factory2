@@ -1,18 +1,18 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
+import 'firebase/firestore'
 
-export default class Firebase  {
+export default class Firebase {
+    private static firebaseInstance: Firebase = null
 
-    private static firebaseInstance: Firebase = null;
-
-    readonly version = firebase.SDK_VERSION;
+    readonly version = firebase.SDK_VERSION
 
     static getInstance() {
         if (!this.firebaseInstance) {
-            this.firebaseInstance = new Firebase();
+            this.firebaseInstance = new Firebase()
         }
-        return this.firebaseInstance;
+        return this.firebaseInstance
     }
 
     private constructor() {
@@ -25,15 +25,20 @@ export default class Firebase  {
             messagingSenderId: '181863708134'
         }
         if (process['browser']) {
-            firebase.initializeApp(config);
+            firebase.initializeApp(config)
         } else {
             if (firebase.apps.length === 0) {
-                firebase.initializeApp(config);
+                firebase.initializeApp(config)
             }
         }
+        firebase.firestore().settings({ timestampsInSnapshots: true })
     }
 
     get auth() {
         return firebase.auth()
+    }
+
+    get firestore() {
+        return firebase.firestore()
     }
 }

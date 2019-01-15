@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Store } from 'redux'
 
 import Firebase from './fire'
-import { completeValidate, loginComplete } from 'redux_store/user/user.actions'
+import { completeValidate, loadFistInformation } from 'redux_store/user/user.actions'
 
 export default (App) => {
     return class AppWithFirebase extends React.Component<{ store: Store }> {
@@ -24,14 +24,14 @@ export default (App) => {
         }
 
         componentDidMount(): void {
-            this.fireInstance.auth.onAuthStateChanged(user=> {
+            this.fireInstance.auth.onAuthStateChanged((user) => {
                 if (user) {
-                    this.props.store.dispatch(loginComplete(user))
+                    this.props.store.dispatch(loadFistInformation(user))
+                } else {
+                    this.props.store.dispatch(completeValidate())
                 }
-                this.props.store.dispatch(completeValidate())
             })
         }
-
 
         render() {
             return <App {...this.props} fireInstance={this.fireInstance} />

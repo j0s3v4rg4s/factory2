@@ -1,4 +1,11 @@
-import { COMPLETE_VALIDATE, IS_LOGIN, LOGIN, LOGIN_COMPLETE, LOGIN_ERROR } from './user.share'
+import {
+    COMPLETE_VALIDATE,
+    IS_LOGIN,
+    LOAD_FIRST_INFO,
+    LOGIN,
+    LOGIN_COMPLETE,
+    LOGIN_ERROR,
+} from './user.share'
 import { Action } from 'redux_store/share'
 import firebase from 'firebase/app'
 
@@ -21,5 +28,12 @@ export function isLogin(): Action {
 export function completeValidate(): Action {
     return {
         type: COMPLETE_VALIDATE
+    }
+}
+
+export function loadFistInformation(user: firebase.User): Action {
+    return {
+        type: LOAD_FIRST_INFO,
+        payload: user
     }
 }

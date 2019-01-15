@@ -1,33 +1,23 @@
 import Router from 'next/router'
 import * as React from 'react'
-import Firebase from 'config/firebase/fire'
-import firebase from 'firebase/app'
 import Load from 'core/components/Load'
+import { connect } from 'react-redux'
+import { State } from 'redux_store/share'
+import { UserState } from 'redux_store/user/user.share'
+
+function mapStateToProps({ userReducer }: State) {
+    return { ...userReducer }
+}
 
 export default function(Wrapped) {
-    return class IsLogin extends React.Component {
-        state = {
-            complete: false
+    return connect(mapStateToProps)((props: UserState ) => {
+        if (props.completeValidate && props.user) {
+            return <Wrapped {...props} />
+        } else if (props.completeValidate) {
+            Router.push('/login')
+            return <Load />
+        } else {
+            return <Load />
         }
-        private uns: firebase.Unsubscribe
-
-        componentWillMount(): void {
-            this.uns = Firebase.getInstance().auth.onAuthStateChanged((usr) => {
-                if (!usr && typeof window != 'undefined') {
-                    Router.push('/login').then(() => this.setState({ complete: true }))
-                } else {
-                    this.setState({ complete: true })
-                }
-            })
-        }
-
-        componentWillUnmount(): void {
-            this.uns()
-        }
-
-        render(): React.ReactNode {
-            const { complete } = this.state
-            return complete ? <Wrapped {...this.props} /> : <Load />
-        }
-    }
+    })
 }
