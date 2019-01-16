@@ -7,32 +7,37 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import { connect } from 'react-redux'
 
-import { State }       from 'redux_store/share'
+import { State } from 'redux_store/share'
 import { FactoryInfo } from 'redux_store/factory/factory.share'
-import Navigate        from './Navigate'
-import Typography   from '@material-ui/core/Typography'
+import Navigate from './Navigate'
+import Typography from '@material-ui/core/Typography'
 
 type Props = {
     classes?: any
     children?: ReactNode
     factory?: FactoryInfo
+    title: string
 }
 
 const drawerWidth = 230
 
 const Layout = (props: Props) => {
-    const { classes, factory } = props
+    const { classes, factory, title } = props
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" color="inherit" noWrap>
-                        Permanent drawer
+                        {title}
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Navigate logo={factory.img} />
-
+            <Navigate
+                logo={factory.img}
+                PaperProps={{ style: { width: drawerWidth } }}
+                className={classes.drawer}
+                variant="permanent"
+            />
             <main className={classes.content}>{props.children}</main>
         </div>
     )

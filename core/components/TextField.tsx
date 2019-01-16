@@ -1,5 +1,6 @@
 import TextField, { TextFieldProps } from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
+import * as React from 'react'
 
 const Text = (props: TextFieldProps) => {
     const { classes } = props
@@ -11,7 +12,6 @@ const Text = (props: TextFieldProps) => {
             InputProps={{
                 classes: {
                     input: classes['input'],
-                    notchedOutline: classes['input']
                 }
             }}
         />

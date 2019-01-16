@@ -1,11 +1,12 @@
 import * as React from 'react'
-import Typography from 'core/components/Typography'
 import ValidatorField, { Required, Email, MinLength } from 'core/components/ValidatorField'
 import Button from 'core/components/Button'
 import { isLogin, login } from 'redux_store/user/user.actions'
 import { connect } from 'react-redux'
 import { State } from 'redux_store/share'
 import { UserState } from 'redux_store/user/user.share'
+import Typography from '@material-ui/core/Typography'
+import IsLogout from 'core/components/IsLogout'
 
 interface Props {
     isLogin: typeof isLogin
@@ -32,7 +33,7 @@ class Login extends React.Component<Props> {
             <React.Fragment>
                 <div className="content">
                     <div className="item1">
-                        <Typography variant="h1">Inicia sesión</Typography>
+                        <Typography variant="h3">Inicia sesión</Typography>
                         <form onSubmit={this.validateForm}>
                             <ValidatorField
                                 ref={this.emailRef}
@@ -105,4 +106,4 @@ const mapStateToProps = ({ userReducer }: State) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login)
+)(IsLogout(Login))

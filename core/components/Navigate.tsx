@@ -10,18 +10,16 @@ import ListItemText            from '@material-ui/core/ListItemText'
 import ListItemIcon            from '@material-ui/core/ListItemIcon'
 import People                  from '@material-ui/icons/People'
 
-const drawerWidth = 230
-
 const styles = (theme) => {
     console.log(theme)
     return {
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0
-        },
-        drawerPaper: {
-            width: drawerWidth
-        },
+        // drawer: {
+        //     width: drawerWidth,
+        //     flexShrink: 0
+        // },
+        // drawerPaper: {
+        //     width: drawerWidth
+        // },
         toolbar: {
             display: 'flex',
             justifyContent: 'center',
@@ -35,8 +33,8 @@ const styles = (theme) => {
         },
         itemActiveItem: {
             color: theme.palette.primary['500'],
+            backgroundColor: 'rgba(0, 152, 136, 0.09)',
             '&:hover': {
-                backgroundColor: 'transparent',
                 color: theme.palette.primary['500']
             }
         },
@@ -54,9 +52,9 @@ type Props = {
 } & DrawerProps
 
 function Navigate(props: Props) {
-    const { classes, logo } = props
+    const { classes, logo, ...other } = props
     return (
-        <Drawer variant="permanent" className={classes.drawer} classes={{ paper: classes.drawerPaper }}>
+        <Drawer {...other}>
             <div>
                 <img src={logo} style={{ width: '100%' }} alt="logo"/>
             </div>
