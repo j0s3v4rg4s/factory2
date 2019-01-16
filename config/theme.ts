@@ -1,7 +1,7 @@
-import { SheetsRegistry } from 'jss'
+import { SheetsRegistry }                          from 'jss'
 import { createMuiTheme, createGenerateClassName } from '@material-ui/core/styles'
-import teal from '@material-ui/core/colors/teal'
-import amber from '@material-ui/core/colors/amber'
+import teal                                        from '@material-ui/core/colors/teal'
+import amber                                       from '@material-ui/core/colors/amber'
 
 const theme = createMuiTheme({
     palette: {
@@ -9,7 +9,11 @@ const theme = createMuiTheme({
         secondary: amber
     },
     typography: {
-        useNextVariants: true
+        useNextVariants: true,
+        h6: {
+            fontFamily: "'Roboto Condensed', sans-serif",
+            fontWeight: 'bold'
+        }
     }
 })
 

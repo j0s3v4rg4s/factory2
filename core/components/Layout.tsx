@@ -4,18 +4,13 @@ import { ReactNode } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Drawer from '@material-ui/core/Drawer'
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import { connect } from 'react-redux'
 
-import Typography from 'core/components/Typography'
-import { State } from 'redux_store/share'
+import { State }       from 'redux_store/share'
 import { FactoryInfo } from 'redux_store/factory/factory.share'
-
+import Navigate        from './Navigate'
+import Typography   from '@material-ui/core/Typography'
 
 type Props = {
     classes?: any
@@ -23,13 +18,7 @@ type Props = {
     factory?: FactoryInfo
 }
 
-const drawerWidth = 240
-
-const List_Item = withStyles({
-    selected: {
-        backgroundColor: 'transparent !important'
-    }
-})(ListItem)
+const drawerWidth = 230
 
 const Layout = (props: Props) => {
     const { classes, factory } = props
@@ -42,33 +31,9 @@ const Layout = (props: Props) => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                className={classes.drawer}
-                classes={{ paper: classes.drawerPaper }}
-                anchor="left">
+            <Navigate logo={factory.img} />
 
-                <div className={classes.toolbar}>
-                    <img src={factory.img} alt="" style={{height: 50}}/>
-                </div>
-                <Divider/>
-
-                <List component="nav">
-                    <List_Item button selected={true}>
-                        <ListItemText primary="Usuarios" classes={{primary: classes.textSelect}} />
-                    </List_Item>
-                    <List_Item button>
-                        <ListItemText primary="otro"/>
-                    </List_Item>
-                </List>
-
-
-
-
-            </Drawer>
-            <main className={classes.content}>
-                {props.children}
-            </main>
+            <main className={classes.content}>{props.children}</main>
         </div>
     )
 }
@@ -98,16 +63,16 @@ const styles = (theme) => {
         },
         content: {
             flexGrow: 1,
-            padding: `88px ${theme.spacing.unit * 3}px 24px`,
+            padding: `88px ${theme.spacing.unit * 3}px 24px`
         },
         textSelect: {
-          color: theme.palette.primary
+            color: theme.palette.primary
         }
     }
 }
 
-function mapStateToProps({factoryReducer}: State) {
-    return {...factoryReducer}
+function mapStateToProps({ factoryReducer }: State) {
+    return { ...factoryReducer }
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Layout))
